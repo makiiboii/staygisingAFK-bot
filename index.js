@@ -24,6 +24,8 @@ process.on('uncaughtException', err => {
 });
 
 // Discord client
+const OWNER_ID = '451647372628459520'; // replace with your Discord user ID
+
 const client = new Client({
     intents: [
         GatewayIntentBits.Guilds,
@@ -40,6 +42,10 @@ client.once('ready', () => {
 // Command: !gising
 client.on('messageCreate', async (message) => {
     if (message.content === '!gising') {
+        if (message.author.id !== OWNER_ID) {
+            return message.reply('❌ Only the bot owner can use this command.');
+        }
+
         const channel = message.member.voice.channel;
         if (!channel) return message.reply('❌ Join a voice channel first!');
 
