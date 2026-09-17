@@ -25,7 +25,11 @@ process.on('uncaughtException', err => {
 });
 
 // Discord client
-const OWNER_ID = '451647372628459520'; // replace with your Discord user ID
+// Users allowed to run bot commands
+const OWNER_IDS = [
+    '451647372628459520', // maki
+    '238275197772365826'  // gab
+];
 
 const client = new Client({
     intents: [
@@ -54,8 +58,8 @@ const activeSessions = new Map(); // guildId -> { connection, player, channel }
 // Command: !gising
 client.on('messageCreate', async (message) => {
     if (message.content === '!gising') {
-        if (message.author.id !== OWNER_ID) {
-            return message.reply('❌ Only the bot owner can use this command.');
+        if (!OWNER_IDS.includes(message.author.id)) {
+            return message.reply('❌ Only authorized users can use this command.');
         }
 
         const channel = message.member.voice.channel;
